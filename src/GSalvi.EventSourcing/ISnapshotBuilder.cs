@@ -3,13 +3,13 @@
 namespace GSalvi.EventSourcing
 {
     /// <summary>
-    /// Defines a builder of <see cref="T"/> type.
+    /// Defines a builder of T type.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface ISnapshotBuilder<out T> where T : Snapshot
     {
         /// <summary>
-        /// Returns a new <see cref="T"/> object.
+        /// Returns a new T object.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="aggregateId"></param>

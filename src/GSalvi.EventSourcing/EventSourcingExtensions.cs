@@ -25,7 +25,7 @@ namespace GSalvi.EventSourcing
 
         /// <summary>
         /// Adds required services to ASP.NET container with
-        /// <see cref="Snapshot"/> representing by <see cref="T"/>.
+        /// <see cref="Snapshot"/> representing by T.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="setupAction"></param>

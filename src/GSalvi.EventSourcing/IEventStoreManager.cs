@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 namespace GSalvi.EventSourcing
 {
     /// <summary>
-    /// Defines a manager of <see cref="T"/> objects.
+    /// Defines a manager of T objects.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IEventStoreManager<T> where T : Snapshot
     {
         /// <summary>
-        /// Stores a new event of <see cref="T"/> type.
+        /// Stores a new event of T type.
         /// </summary>
         /// <param name="event"></param>
         /// <param name="aggregateId"></param>
@@ -20,21 +20,21 @@ namespace GSalvi.EventSourcing
         Task StoreAsync<TR>(TR @event, Guid aggregateId) where TR : class;
         
         /// <summary>
-        /// Returns a <see cref="T"/> by its id.
+        /// Returns a T by its id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<T> GetByIdAsync(Guid id);
         
         /// <summary>
-        /// Returns a collection <see cref="T"/> by its aggregate id.
+        /// Returns a collection T by its aggregate id.
         /// </summary>
         /// <param name="aggregateId"></param>
         /// <returns></returns>
         Task<IEnumerable<T>> GetByAggregateIdAsync(Guid aggregateId);
         
         /// <summary>
-        /// Returns a collection <see cref="T"/> by its event type.
+        /// Returns a collection T by its event type.
         /// </summary>
         /// <param name="eventType"></param>
         /// <returns></returns>
