@@ -38,7 +38,7 @@ namespace GSalvi.EventSourcing.IntegrationTests
         }
 
         [Fact]
-        public async Task GetByIdAsync_ShouldStoreOneItemInRepository()
+        public async Task GetByIdAsync_ShouldGetOneItemFromRepository()
         {
             // Arrange
             var snapshot = _repository.Data.FirstOrDefault();
@@ -52,7 +52,7 @@ namespace GSalvi.EventSourcing.IntegrationTests
         }
 
         [Fact]
-        public async Task GetByAggregateIdAsync_ShouldStoreOneItemInRepository()
+        public async Task GetByAggregateIdAsync_ShouldGetOneItemFromRepository()
         {
             // Arrange
             var aggregateId = new Guid("3c8e2dc0-68bd-4a1f-baa9-bbe675d4a63b");
@@ -68,7 +68,7 @@ namespace GSalvi.EventSourcing.IntegrationTests
         }
         
         [Fact]
-        public async Task GetByEventTypeAsync_ShouldStoreOneItemInRepository()
+        public async Task GetByEventTypeAsync_ShouldGetOneItemFromRepository()
         {
             // Arrange
             var eventType = "MyDummyEvent";
