@@ -6,7 +6,7 @@
     public interface IEventSerializer
     {
         /// <summary>
-        /// Returns a new string of serialized event object.
+        /// Returns a new string of serialized <typeparamref name="TR"/>.
         /// </summary>
         /// <param name="event"></param>
         /// <typeparam name="TR"></typeparam>

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-namespace GSalvi.EventSourcing.UnitTests
+namespace GSalvi.EventSourcing.UnitTests.DefaultSnapshot
 {
     public class SnapshotTests
     {
@@ -23,36 +22,48 @@ namespace GSalvi.EventSourcing.UnitTests
             _eventType = fixture.Create<string>();
             _serializedData = fixture.Create<string>();
             _timestamp = fixture.Create<DateTime>();
-            _snapshot = new Snapshot(_id, _aggregateId, _eventType, _serializedData, _timestamp);
+            _snapshot = new Snapshot
+            {
+                Id = _id,
+                AggregateId = _aggregateId,
+                EventType = _eventType,
+                SerializedData = _serializedData,
+                Timestamp = _timestamp
+            };
         }
 
         [Fact]
-        public void Id_ShouldNotBeChanged_AfterObjectInitialization()
+        public void Id_ShoulNotBeChanged_AfterInitialization()
         {
+            // Act
             _snapshot.Id.Should().Be(_id);
         }
 
         [Fact]
-        public void AggregateId_ShouldNotBeChanged_AfterObjectInitialization()
+        public void AggregateId_ShoulNotBeChanged_AfterInitialization()
         {
+            // Act
             _snapshot.AggregateId.Should().Be(_aggregateId);
         }
 
         [Fact]
-        public void EventType_ShouldNotBeChanged_AfterObjectInitialization()
+        public void EventType_ShoulNotBeChanged_AfterInitialization()
         {
+            // Act
             _snapshot.EventType.Should().Be(_eventType);
         }
 
         [Fact]
-        public void SerializedData_ShouldNotBeChanged_AfterObjectInitialization()
+        public void SerializedData_ShoulNotBeChanged_AfterInitialization()
         {
+            // Act
             _snapshot.SerializedData.Should().Be(_serializedData);
         }
 
         [Fact]
-        public void Timestamp_ShouldNotBeChanged_AfterObjectInitialization()
+        public void Timestamp_ShoulNotBeChanged_AfterInitialization()
         {
+            // Act
             _snapshot.Timestamp.Should().Be(_timestamp);
         }
     }

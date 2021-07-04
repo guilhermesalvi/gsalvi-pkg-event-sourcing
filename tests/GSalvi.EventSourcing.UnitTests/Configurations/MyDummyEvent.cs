@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
 namespace GSalvi.EventSourcing.UnitTests.Configurations
 {
-    [ExcludeFromCodeCoverage]
-    public class DummyEvent
+    public class MyDummyEvent
     {
         public string DummyProp { get; set; }
     }

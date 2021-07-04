@@ -4,6 +4,17 @@ using System.Threading.Tasks;
 
 namespace GSalvi.EventSourcing
 {
+    internal class EventStoreManager : EventStoreManager<Snapshot>, IEventStoreManager
+    {
+        public EventStoreManager(
+            ISnapshotRepository repository,
+            ISnapshotBuilder builder,
+            IEventSerializer serializer)
+            : base(repository, builder, serializer)
+        {
+        }
+    }
+
     internal class EventStoreManager<T> : IEventStoreManager<T> where T : Snapshot
     {
         private readonly ISnapshotRepository<T> _repository;
@@ -20,16 +31,14 @@ namespace GSalvi.EventSourcing
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        public async Task StoreAsync<TR>(TR @event, Guid aggregateId) where TR : class
+        public Task StoreAsync<TR>(TR @event, Guid aggregateId) where TR : class
         {
-            var id = Guid.NewGuid();
             var eventType = typeof(TR).Name;
             var serializedData = _serializer.Serialize(@event);
-            var timestamp = DateTime.UtcNow;
 
-            var snapshot = _builder.Create(id, aggregateId, eventType, serializedData, timestamp);
+            var snapshot = _builder.Create(aggregateId, eventType, serializedData);
 
-            await _repository.AddAsync(snapshot).ConfigureAwait(false);
+            return _repository.AddAsync(snapshot);
         }
 
         public Task<T> GetByIdAsync(Guid id)

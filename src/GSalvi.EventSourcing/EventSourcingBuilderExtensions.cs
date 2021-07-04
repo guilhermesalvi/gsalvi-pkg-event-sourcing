@@ -8,7 +8,7 @@ namespace GSalvi.EventSourcing
     public static class EventSourcingBuilderExtensions
     {
         /// <summary>
-        /// Adds a new T type event serializer.
+        /// Add a new <typeparamref name="T"/> event serializer.
         /// </summary>
         /// <param name="builder"></param>
         /// <typeparam name="T"></typeparam>
@@ -22,7 +22,7 @@ namespace GSalvi.EventSourcing
         }
 
         /// <summary>
-        /// Adds a new T type snapshot builder.
+        /// Add a new <typeparamref name="T"/> as <typeparamref name="TR"/> builder.
         /// </summary>
         /// <param name="builder"></param>
         /// <typeparam name="T"></typeparam>

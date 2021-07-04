@@ -8,50 +8,28 @@ namespace GSalvi.EventSourcing
     public class Snapshot
     {
         /// <summary>
-        /// Represents the identifier of <see cref="Snapshot"/>.
+        /// Represents an identifier.
         /// </summary>
-        public Guid Id { get; }
-        
-        /// <summary>
-        /// Represents the aggregate id of <see cref="Snapshot"/>.
-        /// </summary>
-        public Guid AggregateId { get; }
-        
-        /// <summary>
-        /// Represents the event type of <see cref="Snapshot"/>.
-        /// </summary>
-        public string EventType { get; }
-        
-        /// <summary>
-        /// Represents the serialized data of <see cref="Snapshot"/>.
-        /// </summary>
-        public string SerializedData { get; }
-        
-        /// <summary>
-        /// Represents the timestamp of <see cref="Snapshot"/>.
-        /// </summary>
-        public DateTime Timestamp { get; }
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// Creates a new <see cref="Snapshot"/>.
+        /// Represents an aggregate id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="aggregateId"></param>
-        /// <param name="eventType"></param>
-        /// <param name="serializedData"></param>
-        /// <param name="timestamp"></param>
-        public Snapshot(
-            Guid id,
-            Guid aggregateId,
-            string eventType,
-            string serializedData,
-            DateTime timestamp)
-        {
-            Id = id;
-            AggregateId = aggregateId;
-            EventType = eventType;
-            SerializedData = serializedData;
-            Timestamp = timestamp;
-        }
+        public Guid AggregateId { get; set; }
+
+        /// <summary>
+        /// Represents an event type.
+        /// </summary>
+        public string EventType { get; set; }
+
+        /// <summary>
+        /// Represents a serialized event data.
+        /// </summary>
+        public string SerializedData { get; set; }
+
+        /// <summary>
+        /// Represents a timestamp.
+        /// </summary>
+        public DateTime Timestamp { get; set; }
     }
 }

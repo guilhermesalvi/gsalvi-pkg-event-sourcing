@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -28,7 +28,7 @@ namespace GSalvi.EventSourcing.IntegrationTests
         {
             // Arrange
             var aggregateId = new Fixture().Create<Guid>();
-            var dummyEvent = new DummyEvent();
+            var dummyEvent = new MyDummyEvent();
 
             // Act
             await _manager.StoreAsync(dummyEvent, aggregateId);

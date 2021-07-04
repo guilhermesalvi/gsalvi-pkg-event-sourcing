@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -8,7 +7,6 @@ using GSalvi.EventSourcing.IntegrationTests.Configurations;
 
 namespace GSalvi.EventSourcing.IntegrationTests.Fakers
 {
-    [ExcludeFromCodeCoverage]
     public class FakeSnapshotRepository : ISnapshotRepository<MySnapshot>
     {
         public readonly List<MySnapshot> Data;
@@ -21,10 +19,25 @@ namespace GSalvi.EventSourcing.IntegrationTests.Fakers
             var serializedData = fixture.Create<string>();
             var timestamp = fixture.Create<DateTime>();
 
-            var snapshot1 = new MySnapshot(fixture.Create<Guid>(), aggregateId, eventType, serializedData, timestamp);
-            var snapshot2 = new MySnapshot(fixture.Create<Guid>(), aggregateId, eventType, serializedData, timestamp);
-            var snapshot3 = new MySnapshot(fixture.Create<Guid>(), fixture.Create<Guid>(),
-                fixture.Create<string>(), serializedData, timestamp);
+            var snapshot1 = fixture
+                .Build<MySnapshot>()
+                .With(x => x.AggregateId, aggregateId)
+                .With(x => x.EventType, eventType)
+                .With(x => x.SerializedData, serializedData)
+                .With(x => x.Timestamp, timestamp)
+                .Create();
+            var snapshot2 = fixture
+                .Build<MySnapshot>()
+                .With(x => x.AggregateId, aggregateId)
+                .With(x => x.EventType, eventType)
+                .With(x => x.SerializedData, serializedData)
+                .With(x => x.Timestamp, timestamp)
+                .Create();
+            var snapshot3 = fixture
+                .Build<MySnapshot>()
+                .With(x => x.SerializedData, serializedData)
+                .With(x => x.Timestamp, timestamp)
+                .Create();
             Data = new List<MySnapshot> {snapshot1, snapshot2, snapshot3};
         }
 

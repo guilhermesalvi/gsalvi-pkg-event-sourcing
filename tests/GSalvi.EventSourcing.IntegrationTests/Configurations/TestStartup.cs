@@ -1,4 +1,4 @@
-﻿using GSalvi.EventSourcing.IntegrationTests.Fakers;
+using GSalvi.EventSourcing.IntegrationTests.Fakers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GSalvi.EventSourcing.IntegrationTests.Configurations

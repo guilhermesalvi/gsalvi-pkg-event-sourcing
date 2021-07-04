@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace GSalvi.EventSourcing.IntegrationTests.Configurations
+namespace GSalvi.EventSourcing.UnitTests.Configurations
 {
     [ExcludeFromCodeCoverage]
     public class MySnapshot : Snapshot
