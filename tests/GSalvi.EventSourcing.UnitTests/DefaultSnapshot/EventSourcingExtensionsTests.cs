@@ -45,7 +45,7 @@ namespace GSalvi.EventSourcing.UnitTests.DefaultSnapshot
         public void AddEventSourcing_ShouldReturnServices()
         {
             // Arrange
-            var repository = new Mock<ISnapshotRepository<Snapshot>>();
+            var repository = new Mock<ISnapshotRepository>();
             _services.AddScoped(_ => repository.Object);
 
             // Act - Assert
