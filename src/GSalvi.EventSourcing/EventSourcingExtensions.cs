@@ -30,10 +30,10 @@ namespace GSalvi.EventSourcing
             services.AddScoped<ISnapshotBuilder, SnapshotBuilder>();
 
             if (services.SingleOrDefault(x =>
-                x.ServiceType == typeof(ISnapshotRepository<Snapshot>)) is null)
+                x.ServiceType == typeof(ISnapshotRepository)) is null)
             {
                 throw new Exception(
-                    $"An implementation for {nameof(ISnapshotRepository<Snapshot>)} has not been defined. Consider adding a database.");
+                    $"An implementation for {nameof(ISnapshotRepository)} has not been defined. Consider adding a database.");
             }
 
             return services;
