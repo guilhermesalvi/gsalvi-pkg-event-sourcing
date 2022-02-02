@@ -1,59 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace GSalvi.EventSourcing
+namespace GSalvi.EventSourcing;
+
+internal class EventStoreManager : EventStoreManager<EventData>
 {
-    internal class EventStoreManager : EventStoreManager<Snapshot>, IEventStoreManager
+    public EventStoreManager(
+        IEventDataRepository<EventData> repository,
+        IEventDataBuilder builder,
+        ILogger<EventStoreManager> logger)
+        : base(repository, builder, logger)
     {
-        public EventStoreManager(
-            ISnapshotRepository repository,
-            ISnapshotBuilder builder,
-            IEventSerializer serializer)
-            : base(repository, builder, serializer)
-        {
-        }
+    }
+}
+
+internal class EventStoreManager<TEventData> : IEventStoreManager
+    where TEventData : EventData
+{
+    private readonly IEventDataRepository<TEventData> _repository;
+    private readonly IEventDataBuilder<TEventData> _builder;
+    private readonly ILogger<EventStoreManager<TEventData>> _logger;
+
+    public EventStoreManager(
+        IEventDataRepository<TEventData> repository,
+        IEventDataBuilder<TEventData> builder,
+        ILogger<EventStoreManager<TEventData>> logger)
+    {
+        _repository = repository;
+        _builder = builder;
+        _logger = logger;
     }
 
-    internal class EventStoreManager<T> : IEventStoreManager<T> where T : Snapshot
+    public async Task StoreAsync(dynamic entity, Guid aggregateId, string eventType)
     {
-        private readonly ISnapshotRepository<T> _repository;
-        private readonly ISnapshotBuilder<T> _builder;
-        private readonly IEventSerializer _serializer;
+        _logger.LogInformation("Event received with type {EventType} and aggregate id {AggregateId}",
+            eventType, aggregateId.ToString());
 
-        public EventStoreManager(
-            ISnapshotRepository<T> repository,
-            ISnapshotBuilder<T> builder,
-            IEventSerializer serializer)
-        {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _builder = builder ?? throw new ArgumentNullException(nameof(builder));
-            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-        }
+        var eventData = await _builder.BuildAsync(aggregateId, eventType, entity);
+        await _repository.AddAsync(eventData);
 
-        public Task StoreAsync<TR>(TR @event, Guid aggregateId) where TR : class
-        {
-            var eventType = typeof(TR).Name;
-            var serializedData = _serializer.Serialize(@event);
-
-            var snapshot = _builder.Create(aggregateId, eventType, serializedData);
-
-            return _repository.AddAsync(snapshot);
-        }
-
-        public Task<T> GetByIdAsync(Guid id)
-        {
-            return _repository.GetByIdAsync(id);
-        }
-
-        public Task<IEnumerable<T>> GetByAggregateIdAsync(Guid aggregateId)
-        {
-            return _repository.GetByAggregateIdAsync(aggregateId);
-        }
-
-        public Task<IEnumerable<T>> GetByEventTypeAsync(string eventType)
-        {
-            return _repository.GetByEventTypeAsync(eventType);
-        }
+        _logger.LogInformation(
+            "EventData with event type {EventType}, id {Id} and aggregate id {AggregateId} has been addeded to database",
+            eventType, ((EventData) eventData).Id.ToString(), aggregateId.ToString());
     }
 }
