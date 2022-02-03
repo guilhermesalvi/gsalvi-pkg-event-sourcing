@@ -1,6 +1,6 @@
 namespace GSalvi.EventSourcing;
 
-internal class EventDataBuilder : IEventDataBuilder
+internal class EventDataBuilder : IEventDataBuilder<EventData>
 {
     public Task<EventData> BuildAsync(Guid aggregateId, string eventType, dynamic entity)
     {

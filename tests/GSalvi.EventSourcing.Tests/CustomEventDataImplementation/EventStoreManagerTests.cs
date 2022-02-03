@@ -32,26 +32,23 @@ public class EventStoreManagerTests
         // Arrange
         var aggregateId = _fixture.Create<Guid>();
         var customerRegistered = _fixture.Create<CustomerRegistered>();
+        const string eventType = nameof(CustomerRegistered);
         var userId = new Guid("e872aa96-2c62-4a99-9bb5-fcdcd0fb093e");
-        const string userName = "Jaqueline Moura";
-        const string userEmail = "jaqueline.moura@sorocaba.com.br";
 
         // Act
         await _manager
-            .StoreAsync(customerRegistered, aggregateId, nameof(CustomerRegistered))
+            .StoreAsync(customerRegistered, aggregateId, eventType)
             .ConfigureAwait(false);
 
         // Assert
-        var fromRepository = await _repository.GetByAggregateIdAsync(aggregateId);
+        var fromRepository = await _repository.GetByAggregateIdAsync(aggregateId).ConfigureAwait(false);
         var data = fromRepository.FirstOrDefault();
         data.Should().NotBeNull();
         data!.Id.Should().NotBe(Guid.Empty);
         data.AggregateId.Should().Be(aggregateId);
-        data.EventType.Should().Be(nameof(CustomerRegistered));
+        data.EventType.Should().Be(eventType);
         data.Timestamp.Should().NotBe(default);
         data.UserId.Should().Be(userId);
-        data.UserName.Should().Be(userName);
-        data.UserEmail.Should().Be(userEmail);
         var parsedCustomerRegistered = (CustomerRegistered) data.Entity!;
         parsedCustomerRegistered.CustomerId.Should().Be(customerRegistered.CustomerId);
         parsedCustomerRegistered.CustomerName.Should().Be(customerRegistered.CustomerName);

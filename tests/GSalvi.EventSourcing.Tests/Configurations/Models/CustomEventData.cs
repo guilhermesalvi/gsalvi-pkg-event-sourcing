@@ -7,6 +7,4 @@ namespace GSalvi.EventSourcing.Tests.Configurations.Models;
 public class CustomEventData : EventData
 {
     public Guid UserId { get; set; }
-    public string? UserName { get; set; }
-    public string? UserEmail { get; set; }
 }

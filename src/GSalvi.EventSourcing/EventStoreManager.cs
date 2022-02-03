@@ -6,7 +6,7 @@ internal class EventStoreManager : EventStoreManager<EventData>
 {
     public EventStoreManager(
         IEventDataRepository<EventData> repository,
-        IEventDataBuilder builder,
+        IEventDataBuilder<EventData> builder,
         ILogger<EventStoreManager> logger)
         : base(repository, builder, logger)
     {
@@ -39,7 +39,7 @@ internal class EventStoreManager<TEventData> : IEventStoreManager
         await _repository.AddAsync(eventData);
 
         _logger.LogInformation(
-            "EventData with event type {EventType}, id {Id} and aggregate id {AggregateId} has been addeded to database",
-            eventType, ((EventData) eventData).Id.ToString(), aggregateId.ToString());
+            "EventData with event type {EventType} and id {Id} has been addeded to database",
+            eventType, ((EventData) eventData).Id.ToString());
     }
 }

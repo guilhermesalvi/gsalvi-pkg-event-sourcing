@@ -5,7 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <Version>0.0.4</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>0.0.5</Version>
     <Authors>Guilherme Salvi</Authors>
   </PropertyGroup>
 

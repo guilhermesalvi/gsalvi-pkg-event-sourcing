@@ -16,9 +16,7 @@ public class CustomEventDataBuilder : IEventDataBuilder<CustomEventData>
             EventType = eventType,
             Entity = entity,
             Timestamp = DateTime.UtcNow,
-            UserId = new Guid("e872aa96-2c62-4a99-9bb5-fcdcd0fb093e"),
-            UserName = "Jaqueline Moura",
-            UserEmail = "jaqueline.moura@sorocaba.com.br"
+            UserId = new Guid("e872aa96-2c62-4a99-9bb5-fcdcd0fb093e")
         });
     }
 }

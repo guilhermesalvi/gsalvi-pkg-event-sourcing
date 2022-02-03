@@ -12,7 +12,7 @@ public class CustomEventDataTestStartup
     {
         services.AddEventSourcing<CustomEventData>(setup =>
         {
-            setup.WithEventDataBuilder<CustomEventData, CustomEventDataBuilder>();
+            setup.WithEventDataBuilder<CustomEventDataBuilder>();
             setup.Services.AddScoped<IEventDataRepository<CustomEventData>, FakeCustomEventDataRepository>();
         });
 
