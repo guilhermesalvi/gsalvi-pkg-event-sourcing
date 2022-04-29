@@ -367,3 +367,6 @@ FodyWeavers.xsd
 
 # Rider configuration directory
 .idea/
+
+# Ignore .DS_Store files
+*.DS_Store
