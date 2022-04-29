@@ -1,54 +1,48 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using GSalvi.EventSourcing.Tests.Configurations;
-using GSalvi.EventSourcing.Tests.Configurations.Fakers;
-using GSalvi.EventSourcing.Tests.Configurations.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace GSalvi.EventSourcing.Tests.DefaultEventDataImplementation;
 
-[Collection(nameof(TestsFixtureCollection))]
-public class EventStoreManagerTests
+[ExcludeFromCodeCoverage]
+public class EventStoreManagerTests : IClassFixture<TestHost<TestStartup>>
 {
-    private readonly FakeDefaultEventDataRepository _repository;
     private readonly IEventStoreManager _manager;
-    private readonly Fixture _fixture;
+    private readonly IEventDataRepository<EventData> _repository;
 
-    public EventStoreManagerTests(TestHost<DefaultEventDataTestStartup> testHost)
+    public EventStoreManagerTests(TestHost<TestStartup> host)
     {
-        _repository = (FakeDefaultEventDataRepository) testHost.ServiceProvider
-            .GetRequiredService<IEventDataRepository<EventData>>();
-        _manager = testHost.ServiceProvider.GetRequiredService<IEventStoreManager>();
-        _fixture = new Fixture();
+        _manager = host.ServiceProvider.GetRequiredService<IEventStoreManager>();
+        _repository = host.ServiceProvider.GetRequiredService<IEventDataRepository<EventData>>();
     }
 
     [Fact]
-    public async Task StoreAsync_ShouldStoreOneItemInRepository()
+    public async Task StoreAsyncMethod_ShouldStoreItemInDatabase()
     {
         // Arrange
-        var aggregateId = _fixture.Create<Guid>();
-        const string eventType = nameof(CustomerRegistered);
-        var customerRegistered = _fixture.Create<CustomerRegistered>();
+        var entity = new Fixture().Create<CustomerRegistered>();
 
         // Act
-        await _manager
-            .StoreAsync(customerRegistered, aggregateId, eventType)
-            .ConfigureAwait(false);
+        await _manager.StoreAsync(entity, entity.Id);
 
         // Assert
-        var fromRepository = await _repository.GetByAggregateIdAsync(aggregateId);
-        var data = fromRepository.FirstOrDefault();
-        data.Should().NotBeNull();
-        data!.Id.Should().NotBe(Guid.Empty);
-        data.AggregateId.Should().Be(aggregateId);
-        data.EventType.Should().Be(eventType);
-        data.Timestamp.Should().NotBe(default);
-        var parsedCustomerRegistered = (CustomerRegistered) data.Entity!;
-        parsedCustomerRegistered.CustomerId.Should().Be(customerRegistered.CustomerId);
-        parsedCustomerRegistered.CustomerName.Should().Be(customerRegistered.CustomerName);
+        var stored = (await _repository.GetByAggregateIdAsync(entity.Id)).FirstOrDefault();
+        stored.Should().NotBeNull();
+        stored!.Id.Should().NotBe(Guid.Empty);
+        stored.AggregateId.Should().Be(entity.Id);
+        stored.EventType.Should().Be(nameof(CustomerRegistered));
+        stored.Timestamp.Should().BeWithin(2.Seconds()).Before(DateTime.UtcNow);
+
+        var storedEntity = stored.ParsedEntity<CustomerRegistered>();
+        storedEntity.Should().NotBeNull();
+        storedEntity!.Id.Should().Be(entity.Id);
+        storedEntity.Name.Should().Be(entity.Name);
     }
 }

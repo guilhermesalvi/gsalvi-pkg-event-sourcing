@@ -29,4 +29,11 @@ public class EventData
     /// Represents the timestamp that the event occurred
     /// </summary>
     public DateTime Timestamp { get; set; }
+
+    /// <summary>
+    /// Returns a parsed <typeparamref name="TEntity"/> from <see cref="Entity"/> property
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <returns></returns>
+    public TEntity? ParsedEntity<TEntity>() where TEntity : class => Entity as TEntity;
 }

@@ -1,19 +1,17 @@
 using System.Diagnostics.CodeAnalysis;
-using GSalvi.EventSourcing.Tests.Configurations.Fakers;
-using GSalvi.EventSourcing.Tests.Configurations.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GSalvi.EventSourcing.Tests.Configurations;
+namespace GSalvi.EventSourcing.Tests.CustomEventDataImplementation;
 
 [ExcludeFromCodeCoverage]
-public class CustomEventDataTestStartup
+public class TestStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddEventSourcing<CustomEventData>(setup =>
         {
             setup.WithEventDataBuilder<CustomEventDataBuilder>();
-            setup.Services.AddScoped<IEventDataRepository<CustomEventData>, FakeCustomEventDataRepository>();
+            setup.Services.AddScoped<IEventDataRepository<CustomEventData>, Repository>();
         });
 
         services.AddLogging();

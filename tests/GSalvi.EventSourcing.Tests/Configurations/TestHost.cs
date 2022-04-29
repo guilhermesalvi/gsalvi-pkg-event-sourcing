@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Mongo2Go;
 
 namespace GSalvi.EventSourcing.Tests.Configurations;
 
@@ -19,6 +20,7 @@ public class TestHost<TStartup> where TStartup : class
 
         var services = new ServiceCollection();
         services.AddSingleton(Configuration);
+        services.AddScoped(_ => MongoDbRunner.Start());
 
         var startup = Activator.CreateInstance<TStartup>();
 

@@ -1,17 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
-using GSalvi.EventSourcing.Tests.Configurations.Fakers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GSalvi.EventSourcing.Tests.Configurations;
+namespace GSalvi.EventSourcing.Tests.DefaultEventDataImplementation;
 
 [ExcludeFromCodeCoverage]
-public class DefaultEventDataTestStartup
+public class TestStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddEventSourcing(setup =>
         {
-            setup.Services.AddScoped<IEventDataRepository<EventData>, FakeDefaultEventDataRepository>();
+            setup.Services.AddScoped<IEventDataRepository<EventData>, Repository>();
         });
 
         services.AddLogging();

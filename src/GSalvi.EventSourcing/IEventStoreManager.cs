@@ -10,7 +10,9 @@ public interface IEventStoreManager
     /// </summary>
     /// <param name="entity"></param>
     /// <param name="aggregateId"></param>
-    /// <param name="eventType"></param>
+    /// <param name="additionalParams"></param>
+    /// <typeparam name="TEntity"></typeparam>
     /// <returns></returns>
-    Task StoreAsync(dynamic entity, Guid aggregateId, string eventType);
+    Task StoreAsync<TEntity>(TEntity entity, Guid aggregateId, params KeyValuePair<string, string>[] additionalParams)
+        where TEntity : class;
 }

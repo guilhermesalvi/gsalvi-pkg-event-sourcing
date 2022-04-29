@@ -12,6 +12,8 @@ public interface IEventDataBuilder<TEventData> where TEventData : EventData
     /// <param name="aggregateId"></param>
     /// <param name="eventType"></param>
     /// <param name="entity"></param>
+    /// <param name="additionalParams"></param>
     /// <returns></returns>
-    Task<TEventData> BuildAsync(Guid aggregateId, string eventType, dynamic entity);
+    Task<TEventData> BuildAsync(Guid aggregateId, string eventType, dynamic entity,
+        params KeyValuePair<string, string>[] additionalParams);
 }

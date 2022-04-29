@@ -6,7 +6,8 @@ namespace GSalvi.EventSourcing;
 /// Defines a builder to registering dependencies
 /// </summary>
 /// <typeparam name="TEventData"></typeparam>
-public class EventSourcingExtensionsBuilder<TEventData> where TEventData : EventData
+public class EventSourcingExtensionsBuilder<TEventData>
+    where TEventData : EventData
 {
     /// <summary>
     /// Represents a collection of services
@@ -20,7 +21,8 @@ public class EventSourcingExtensionsBuilder<TEventData> where TEventData : Event
     /// Adds a new builder for <typeparamref name="TEventData"/> type
     /// </summary>
     /// <typeparam name="TEventDataBuilder"></typeparam>
-    public void WithEventDataBuilder<TEventDataBuilder>() where TEventDataBuilder : IEventDataBuilder<TEventData>
+    public void WithEventDataBuilder<TEventDataBuilder>()
+        where TEventDataBuilder : IEventDataBuilder<TEventData>
     {
         Services.AddScoped(typeof(IEventDataBuilder<TEventData>), typeof(TEventDataBuilder));
     }

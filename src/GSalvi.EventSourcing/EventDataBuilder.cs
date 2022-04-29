@@ -2,7 +2,8 @@ namespace GSalvi.EventSourcing;
 
 internal class EventDataBuilder : IEventDataBuilder<EventData>
 {
-    public Task<EventData> BuildAsync(Guid aggregateId, string eventType, dynamic entity)
+    public Task<EventData> BuildAsync(Guid aggregateId, string eventType, dynamic entity,
+        params KeyValuePair<string, string>[] additionalParams)
     {
         var id = Guid.NewGuid();
         var timestamp = DateTime.UtcNow;
@@ -11,8 +12,8 @@ internal class EventDataBuilder : IEventDataBuilder<EventData>
         {
             Id = id,
             AggregateId = aggregateId,
-            EventType = eventType,
             Entity = entity,
+            EventType = eventType,
             Timestamp = timestamp
         });
     }
